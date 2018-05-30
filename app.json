@@ -1,0 +1,7 @@
+{
+  "name": "BI Helper Webhook",
+  "description": "Demonstration of BI Helper Webhook",
+  "repository": "https://github.com/AnaMakarevich/bi-bot-api",
+  "logo": "http://xvir.github.io/img/apiai.png",
+  "keywords": ["api.ai", "dialogflow", "natural language"]
+}
