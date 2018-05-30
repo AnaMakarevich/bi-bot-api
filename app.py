@@ -33,7 +33,7 @@ def webhook():
 
 def process_request(req_json):
     # TODO: check what intent was matched and do the necessary processing
-    if req_json.get("queryResult").get("intent").get("displayName") != "TestIntent":
+    if req_json.get("queryResult").get("intent").get("displayName") != "Weather":
         print("Intent not recognized")
         return {}
     result = make_olap_query(req_json)
