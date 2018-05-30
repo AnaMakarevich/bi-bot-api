@@ -3,6 +3,7 @@
 # general imports
 import json
 import os
+import dateutil.parser
 
 # project-specific imports
 from flask import Flask
@@ -32,29 +33,61 @@ def webhook():
 
 
 def process_request(req_json):
-    # TODO: check what intent was matched and do the necessary processing
-    if req_json.get("queryResult").get("intent").get("displayName") != "Weather":
+    valid_intents = ['Weather', 'Revenue']
+    intent_name = req_json.get("queryResult").get("intent").get("displayName")
+    if intent_name not in valid_intents:
         print("Intent not recognized")
         return {}
-    result = make_olap_query(req_json)
+    if intent_name == "Revenue":
+        result = calculate_revenue(req_json)
+    else:
+        result = make_olap_query(req_json)
 
     res = make_webhook_result(result)
     return res
 
 
+def calculate_revenue(req):
+    result = req.get("queryResult")
+    parameters = result.get("parameters")
+    bm_type = parameters.get('bm-type')
+    date_period = parameters.get('date-period')
+    date = parameters.get('date')
+    text = "The revenue for "
+    if bm_type != "":
+        print (bm_type)
+        text += bm_type + " "
+        revenue = 10000.0
+    if date_period != "":
+        print("Period is not none")
+        start_date = dateutil.parser.parse(date_period.get("startDate"))
+        end_date = dateutil.parser.parse(date_period.get("endDate"))
+        start_date_str = start_date.strftime('%b, %d, %Y')
+        end_date_str = end_date.strftime('%b, %d, %Y')
+        text += "for the period from " + start_date_str + " to " + end_date_str
+        revenue = 10000.0
+    if date !="":
+        print("Date is not none")
+        text += " for the date: " + date
+        date = dateutil.parser.parse(date)
+        revenue = 10000.0
+    revenue = "{:,}".format(revenue)
+    text += " is $" + revenue
+    return text
+
+
 def make_olap_query(req):
+
     result = req.get("queryResult")
     parameters = result.get("parameters")
     city = parameters.get("geo-city")
     if city is None:
-        return {'res': 'Fail'}
+        return "The result is Fail"
+    text = "The result is: Success for city " + city
+    return text
 
-    return {"res": "Success", "city": city}
 
-
-def make_webhook_result(data):
-
-    text = "The result is: " + data["res"] + " for city " + data["city"]
+def make_webhook_result(text):
 
     print("Response:")
     print(text)
