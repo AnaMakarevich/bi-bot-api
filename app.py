@@ -33,18 +33,80 @@ def webhook():
 
 
 def process_request(req_json):
-    valid_intents = ['Weather', 'Revenue']
+    valid_intents = ['Weather', 'Revenue', "Users"]
     intent_name = req_json.get("queryResult").get("intent").get("displayName")
     if intent_name not in valid_intents:
         print("Intent not recognized")
         return {}
     if intent_name == "Revenue":
         result = calculate_revenue(req_json)
+    elif intent_name == "Users":
+        if (req_json.get("queryResult").get("compare") != "") and (req_json.get("queryResult").get("date-period") == ""):
+            print("Invalid parameters")
+            return {}
+        else:
+            result = calculate_users(req_json)
     else:
         result = make_olap_query(req_json)
 
     res = make_webhook_result(result)
     return res
+
+
+def calculate_users(req):
+    template_phrase = "Number of {} for {} is {} {}."
+    result = req.get("queryResult")
+    parameters = result.get("parameters")
+    date_period = parameters.get('date-period')
+    date = parameters.get('date')
+    platform_names = parameters.get("platform_name") # list
+    compare = parameters.get("compare") != ""
+    user_visitor = parameters.get("user-visitor") # list
+    registered = parameters.get("registered") != ""
+    if len(platform_names) != 0:
+        platforms = "for platforms: " + str(platform_names)
+    else:
+        platforms = ""
+    if date != "":
+        date = dateutil.parser.parse(date)
+        date_text = "on " + date.strftime('%b, %d, %Y')
+    elif date_period != "":
+        start_date = dateutil.parser.parse(date_period.get("startDate"))
+        end_date = dateutil.parser.parse(date_period.get("endDate"))
+        date_text = "period from " + start_date.strftime('%b, %d, %Y') + " to " + end_date.strftime('%b, %d, %Y')
+    else:
+        date_text = ""
+    if user_visitor is not None:
+        if ("user" in user_visitor) and ("visitor" in user_visitor):
+            who = "user/visitors"
+        elif "visitor" in user_visitor:
+            who = "visitors"
+        else:
+            who = "visitors"
+    else:
+        who = "users"
+
+    text = ""
+    if compare and not registered:
+        start_date = dateutil.parser.parse(date_period.get("startDate"))
+        end_date = dateutil.parser.parse(date_period.get("endDate"))
+        n_users_start = 200
+        n_users_end = 400
+        text += template_phrase.format(who, start_date.strftime('%b, %d, %Y'), str(n_users_start), platforms)
+        text += template_phrase.format(who, end_date.strftime('%b, %d, %Y'), str(n_users_end), platforms)
+        dif = round(((n_users_end - n_users_start)/n_users_start)*100, 2)
+        if n_users_end > n_users_start:
+            trend = "growth"
+        else:
+            trend = "decrease"
+        text += "The {} is {}%".format(trend,str(dif))
+        return text
+    elif registered:
+        n_users_signed_up = 400
+        return template_phrase.format("users", date_text, n_users_signed_up, "")
+    else:
+        n_active_users = 432
+        return template_phrase.format(who, date_text, n_active_users, platforms)
 
 
 def calculate_revenue(req):
