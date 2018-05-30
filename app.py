@@ -3,7 +3,7 @@
 # general imports
 import json
 import os
-#import dateutil.parser
+import dateutil.parser
 
 # project-specific imports
 from flask import Flask
@@ -60,16 +60,16 @@ def calculate_revenue(req):
         revenue = 10000.0
     if date_period != "":
         print("Period is not none")
-        #start_date = dateutil.parser.parse(date_period.get("startDate"))
-        #end_date = dateutil.parser.parse(date_period.get("endDate"))
-        #start_date_str = start_date.strftime('%b, %d, %Y')
-        #end_date_str = end_date.strftime('%b, %d, %Y')
-        #text += "for the period from " + start_date_str + " to " + end_date_str
+        start_date = dateutil.parser.parse(date_period.get("startDate"))
+        end_date = dateutil.parser.parse(date_period.get("endDate"))
+        start_date_str = start_date.strftime('%b, %d, %Y')
+        end_date_str = end_date.strftime('%b, %d, %Y')
+        text += "for the period from " + start_date_str + " to " + end_date_str
         revenue = 10000.0
     if date !="":
-        #print("Date is not none")
-        #text += " for the date: " + date
-        #date = dateutil.parser.parse(date)
+        print("Date is not none")
+        text += " for the date: " + date
+        date = dateutil.parser.parse(date)
         revenue = 10000.0
     revenue = "{:,}".format(revenue)
     text += " is $" + revenue
