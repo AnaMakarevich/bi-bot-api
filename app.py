@@ -92,8 +92,8 @@ def calculate_users(req):
         end_date = dateutil.parser.parse(date_period.get("endDate"))
         n_users_start = 1862
         n_users_end = 2365
-        text += template_phrase.format(who, start_date.strftime('%b, %d, %Y'), str(n_users_start), platforms)
-        text += template_phrase.format(who, end_date.strftime('%b, %d, %Y'), str(n_users_end), platforms)
+        text += template_phrase.format(who, start_date.strftime('%b, %Y'), str(n_users_start), platforms)
+        text += template_phrase.format(who, end_date.strftime('%b, %Y'), str(n_users_end), platforms)
         dif = round(((n_users_end - n_users_start)/n_users_start)*100, 2)
         if n_users_end > n_users_start:
             trend = "growth"
