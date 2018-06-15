@@ -47,7 +47,7 @@ def process_request(req_json):
         else:
             result = calculate_users(req_json)
     else:
-        result = make_olap_query(req_json)
+        result = "Unrecognized request"
 
     res = make_webhook_result(result)
     return res
@@ -115,24 +115,24 @@ def calculate_revenue(req):
     bm_type = parameters.get('bm-type')
     date_period = parameters.get('date-period')
     date = parameters.get('date')
-    text = "The revenue for "
+    text = "The revenue  "
     if bm_type != "":
         print (bm_type)
         text += bm_type + " "
-        revenue = 10000.0
+        revenue = 3750.0
     if date_period != "":
         print("Period is not none")
         start_date = dateutil.parser.parse(date_period.get("startDate"))
         end_date = dateutil.parser.parse(date_period.get("endDate"))
         start_date_str = start_date.strftime('%b, %d, %Y')
         end_date_str = end_date.strftime('%b, %d, %Y')
-        text += "for the period from " + start_date_str + " to " + end_date_str
-        revenue = 10000.0
-    if date !="":
+        text += "for the period from " + start_date_str.strftime('%b, %d, %Y') + " to " + end_date_str.strftime('%b, %d, %Y')
+        revenue = 18568.0
+    if date != "":
         print("Date is not none")
-        text += " for the date: " + date
+        text += "for the date: " + date.strftime('%b, %d, %Y')
         date = dateutil.parser.parse(date)
-        revenue = 10000.0
+        revenue = 3456.0
     revenue = "{:,}".format(revenue)
     text += " is $" + revenue
     return text
