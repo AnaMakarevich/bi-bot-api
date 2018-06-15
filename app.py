@@ -90,8 +90,8 @@ def calculate_users(req):
     if compare and not registered:
         start_date = dateutil.parser.parse(date_period.get("startDate"))
         end_date = dateutil.parser.parse(date_period.get("endDate"))
-        n_users_start = 200
-        n_users_end = 400
+        n_users_start = 1862
+        n_users_end = 2365
         text += template_phrase.format(who, start_date.strftime('%b, %d, %Y'), str(n_users_start), platforms)
         text += template_phrase.format(who, end_date.strftime('%b, %d, %Y'), str(n_users_end), platforms)
         dif = round(((n_users_end - n_users_start)/n_users_start)*100, 2)
@@ -130,8 +130,8 @@ def calculate_revenue(req):
         revenue = 18568.0
     if date != "":
         print("Date is not none")
-        text += "for the date: " + date.strftime('%b, %d, %Y')
         date = dateutil.parser.parse(date)
+        text += "for the date: " + date.strftime('%b, %d, %Y')
         revenue = 3456.0
     revenue = "{:,}".format(revenue)
     text += " is $" + revenue
