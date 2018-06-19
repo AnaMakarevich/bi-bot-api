@@ -51,15 +51,15 @@ def process_request(req_json):
             res = make_webhook_result(result)
             return res
     if intent_name == "FullReport":
-        result = "[blah blha](http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/FullReport.ipynb?dashboard#)"
-        res = make_webhook_result("Here you go"< result)
+        result = "You might like full report: http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/FullReport.ipynb?dashboard#"
+        res = make_webhook_result("Here you go")
         return res
     if intent_name == "Clustering":
-        result = "http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Clustering.ipynb?dashboard#"
+        result = "You might like clustering report: http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Clustering.ipynb?dashboard#"
         res = make_webhook_result("Here you go", result)
         return res
     if intent_name == "Association":
-        result = "http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Association.ipynb?dashboard#"
+        result = "You might like associations report: http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Association.ipynb?dashboard#"
         res = make_webhook_result("Here you go", result)
         return res
     else:
@@ -173,21 +173,6 @@ def make_webhook_result(text, source=""):
     return {
         "fulfillmentText": text,
         "source": "bi-bot-api",
-        "fulfillmentMessages": [
-            {
-                "card": {
-                    "title": "card title",
-                    "subtitle": "card text",
-                    "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-                    "buttons": [
-                        {
-                            "text": "button text",
-                            "postback": source
-                        }
-                    ]
-                }
-            }
-        ],
         "payload": {
             "slack": {
                 "text": text
