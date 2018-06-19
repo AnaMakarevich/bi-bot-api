@@ -52,15 +52,15 @@ def process_request(req_json):
             return res
     if intent_name == "FullReport":
         result = "You might like full report: http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/FullReport.ipynb?dashboard#"
-        res = make_webhook_result("Here you go")
+        res = make_webhook_result(result)
         return res
     if intent_name == "Clustering":
         result = "You might like clustering report: http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Clustering.ipynb?dashboard#"
-        res = make_webhook_result("Here you go", result)
+        res = make_webhook_result(result)
         return res
     if intent_name == "Association":
         result = "You might like associations report: http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Association.ipynb?dashboard#"
-        res = make_webhook_result("Here you go", result)
+        res = make_webhook_result(result)
         return res
     else:
         result = "Unrecognized request"
