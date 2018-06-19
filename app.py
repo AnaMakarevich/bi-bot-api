@@ -33,19 +33,35 @@ def webhook():
 
 
 def process_request(req_json):
-    valid_intents = ['Weather', 'Revenue', "Users"]
+    valid_intents = ['Weather', 'Revenue', "Users", "FullReport", "CohortAnalysis", "Clustering", "Association"]
     intent_name = req_json.get("queryResult").get("intent").get("displayName")
     if intent_name not in valid_intents:
         print("Intent not recognized")
         return {}
     if intent_name == "Revenue":
         result = calculate_revenue(req_json)
-    elif intent_name == "Users":
+        res = make_webhook_result(result)
+        return res
+    if intent_name == "Users":
         if (req_json.get("queryResult").get("compare") != "") and (req_json.get("queryResult").get("date-period") == ""):
             print("Invalid parameters")
             return {}
         else:
             result = calculate_users(req_json)
+            res = make_webhook_result(result)
+            return res
+    if intent_name == "FullReport":
+        result = "http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/FullReport.ipynb?dashboard#"
+        res = make_webhook_result(result)
+        return res
+    if intent_name == "Clustering":
+        result = "http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Clustering.ipynb?dashboard#"
+        res = make_webhook_result(result)
+        return res
+    if intent_name == "Association":
+        result = "http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Association.ipynb?dashboard#"
+        res = make_webhook_result(result)
+        return res
     else:
         result = "Unrecognized request"
 
@@ -105,7 +121,7 @@ def calculate_users(req):
         n_users_signed_up = 400
         return template_phrase.format("users", date_text, n_users_signed_up, "")
     else:
-        n_active_users = 432
+        n_active_users = 43587
         return template_phrase.format(who, date_text, n_active_users, platforms)
 
 
@@ -117,7 +133,7 @@ def calculate_revenue(req):
     date = parameters.get('date')
     text = "The revenue  "
     if bm_type != "":
-        print (bm_type)
+        print(bm_type)
         text += bm_type + " "
         revenue = 3750.0
     if date_period != "":
@@ -132,7 +148,7 @@ def calculate_revenue(req):
         print("Date is not none")
         date = dateutil.parser.parse(date)
         text += "for the date: " + date.strftime('%b, %d, %Y')
-        revenue = 3456.0
+        revenue = 5378.0
     revenue = "{:,}".format(revenue)
     text += " is $" + revenue
     return text
