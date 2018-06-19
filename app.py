@@ -51,16 +51,16 @@ def process_request(req_json):
             res = make_webhook_result(result)
             return res
     if intent_name == "FullReport":
-        result = "<a>http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/FullReport.ipynb?dashboard#</a>"
-        res = make_webhook_result(result)
+        result = "[blah blha](http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/FullReport.ipynb?dashboard#)"
+        res = make_webhook_result("Here you go"< result)
         return res
     if intent_name == "Clustering":
         result = "http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Clustering.ipynb?dashboard#"
-        res = make_webhook_result(result)
+        res = make_webhook_result("Here you go", result)
         return res
     if intent_name == "Association":
         result = "http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Association.ipynb?dashboard#"
-        res = make_webhook_result(result)
+        res = make_webhook_result("Here you go", result)
         return res
     else:
         result = "Unrecognized request"
@@ -165,7 +165,7 @@ def make_olap_query(req):
     return text
 
 
-def make_webhook_result(text):
+def make_webhook_result(text, source=""):
 
     print("Response:")
     print(text)
@@ -173,6 +173,21 @@ def make_webhook_result(text):
     return {
         "fulfillmentText": text,
         "source": "bi-bot-api",
+        "fulfillmentMessages": [
+            {
+                "card": {
+                    "title": "card title",
+                    "subtitle": "card text",
+                    "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+                    "buttons": [
+                        {
+                            "text": "button text",
+                            "postback": source
+                        }
+                    ]
+                }
+            }
+        ],
         "payload": {
             "slack": {
                 "text": text
