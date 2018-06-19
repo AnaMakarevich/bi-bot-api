@@ -51,19 +51,19 @@ def process_request(req_json):
             res = make_webhook_result(result)
             return res
     if intent_name == "FullReport":
-        result = "You might like summary report: http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/FullReport.ipynb?dashboard#"
+        result = "You might like summary report: https://tinyurl.com/yaohkpzy"
         res = make_webhook_result(result)
         return res
     if intent_name == "CohortAnalysis":
-        result = "You might like cohort analysis:\n http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/CohortAnalysis.ipynb?dashboard#"
+        result = "You might like cohort analysis: https://tinyurl.com/yco9exbd"
         res = make_webhook_result(result)
         return res
     if intent_name == "Clustering":
-        result = "You might like user segmentation report: http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Clustering.ipynb?dashboard#"
+        result = "You might like user segmentation report: https://tinyurl.com/y9mebc4b"
         res = make_webhook_result(result)
         return res
     if intent_name == "Association":
-        result = "You might like associations report: http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/Association.ipynb?dashboard#"
+        result = "You might like associations report: https://tinyurl.com/y8wgfs3d"
         res = make_webhook_result(result)
         return res
     else:
