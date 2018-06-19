@@ -51,7 +51,7 @@ def process_request(req_json):
             res = make_webhook_result(result)
             return res
     if intent_name == "FullReport":
-        result = "http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/FullReport.ipynb?dashboard#"
+        result = "<a>http://ec2-35-180-92-131.eu-west-3.compute.amazonaws.com:8888/user/ubuntu/tree/FullReport.ipynb?dashboard#</a>"
         res = make_webhook_result(result)
         return res
     if intent_name == "Clustering":
